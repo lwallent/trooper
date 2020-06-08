@@ -4,6 +4,7 @@ import {NotFound} from "@tsed/exceptions";
 import {Calendar, CreateCalendar} from "../../models/Calendar";
 import {CalendarsService} from "../../services/calendars/CalendarsService";
 import {EventsCtrl} from "../events/EventsCtrl";
+import { JWT } from '../../decorators/JWT';
 
 /**
  * Add @Controller annotation to declare your class as Router controller.
@@ -19,6 +20,7 @@ import {EventsCtrl} from "../events/EventsCtrl";
     EventsCtrl
   ]
 })
+@JWT()
 export class CalendarsCtrl {
   constructor(private calendarsService: CalendarsService) {
   }

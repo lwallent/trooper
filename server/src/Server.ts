@@ -1,3 +1,5 @@
+import * as env from 'dotenv';
+env.config();
 import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
 import "@tsed/swagger";
 import "@tsed/platform-express";
@@ -33,7 +35,16 @@ const rootDir = __dirname;
   ],
   swagger: [
     {
-      path: "/api-docs"
+      path: "/api-docs",
+      spec: {
+        securityDefinitions: {
+          Token: {
+            type: 'apiKey',
+            name: 'Authorization',
+            in: 'header'
+          }
+        }
+      }
     }
   ],
   calendar: {
