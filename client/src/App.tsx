@@ -1,26 +1,22 @@
 import React from "react";
+import { Router, Route, Switch } from "react-router-dom";
 import { NavBar } from "./components/NavBar";
-import { useAuth0 } from "./react-auth0-spa";
+import { Profile } from "./components/Profile";
+import { PrivateRoute } from './components/PrivateRoute';
+import history from "./lib/history";
 
-export const App: React.FC = () => {
-  const {
-    isInitializing,
-    isAuthenticated
-  } = useAuth0()
-
-  if (isInitializing) {
-    return <div>Loading...</div>;
-  }
-
-  // if (!isAuthenticated) {
-  //   return <div>Please Authenticate...</div>;
-  // }
-
+export const App = () => {
   return (
     <div className="App">
-      <header>
-        <NavBar />
-      </header>
+      <Router history={history}>
+        <header>
+          <NavBar />
+        </header>
+        <Switch>
+          <Route path="/" exact />
+          <PrivateRoute path="/profile" component={Profile} />
+        </Switch>
+      </Router>
     </div>
   );
 }
