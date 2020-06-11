@@ -2,13 +2,13 @@ import React from "react";
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Router, Route, Switch } from "react-router-dom";
-import { Profile } from "./components/Profile";
-import { PrivateRoute } from './components/PrivateRoute';
+import { Profile } from "./components/user/Profile";
+import { PrivateRoute } from './components/security/PrivateRoute';
 import history from "./lib/history";
-import { Workbench } from './components/Workbench';
 import { CssBaseline } from '@material-ui/core';
-import { TrooperHeader } from './components/TrooperHeader';
-import { TrooperMenu, MENU_WIDTH } from './components/TrooperMenu';
+import { TrooperHeader } from './components/basic-ui/TrooperHeader';
+import { TrooperMenu, MENU_WIDTH } from './components/basic-ui/TrooperMenu';
+import { ProjectsPage } from './components/projects/ProjectsPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -64,7 +64,7 @@ export const App = () => {
           <Switch>
             <Route path="/" exact />
             <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/workbench" component={Workbench} />
+            <PrivateRoute path="/projects" component={ProjectsPage} />
           </Switch>
         </main>
       </Router>

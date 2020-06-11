@@ -3,13 +3,12 @@ import { makeStyles, useTheme } from '@material-ui/core/styles';
 import { Drawer, IconButton, Divider, List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import AccountTree from '@material-ui/icons/AccountTree';
 import Person from '@material-ui/icons/Person';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import {History } from 'history'
 
-import { useAuth0 } from '../react-auth0-spa';
+import { useAuth0 } from '../../react-auth0-spa';
 
 export const MENU_WIDTH = 240;
 
@@ -61,9 +60,9 @@ export const TrooperMenu = (props: TrooperMenuProps) => {
         <Divider />
 
         <List>
-            <ListItem button onClick={() => props.history.push('/workbench') }>
-              <ListItemIcon><Person/></ListItemIcon>
-              <ListItemText primary="Workbench" />
+            <ListItem button onClick={() => props.history.push('/projects') }>
+              <ListItemIcon><AccountTree/></ListItemIcon>
+              <ListItemText primary="Projects" />
             </ListItem>
 
             <ListItem button onClick={() => props.history.push('/profile') }>
