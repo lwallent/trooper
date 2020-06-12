@@ -1,6 +1,6 @@
-import {Inject, Service} from "@tsed/common";
-import {MongooseModel} from "@tsed/mongoose";
-import {$log} from "@tsed/logger";
+import {Inject, Service} from '@tsed/common';
+import {MongooseModel} from '@tsed/mongoose';
+import {$log} from '@tsed/logger';
 import { Project } from '../../models/projects/Project';
 
 
@@ -13,18 +13,17 @@ export class ProjectsService {
 //     // INIT HOOK..
 //   }
 
-  
-
   /**
    * Find a project by his ID.
    * @param id
    * @returns {undefined|Project}
    */
   async find(id: string): Promise<Project> {
-    $log.debug("Search a project from ID", id);
+    $log.debug('Search a project from ID', id);
     const project = await this.Project.findById(id).exec();
 
-    $log.debug("Found", project);
+    $log.debug('Found', project);
+
     return project;
   }
 
@@ -34,13 +33,13 @@ export class ProjectsService {
    * @returns {Project}
    */
   async save(project: Project): Promise<Project> {
-    $log.debug({message: "Validate project", project});
+    $log.debug({message: 'Validate project', project});
 
     const model = new this.Project(project);
-    $log.debug({message: "Save project", project});
+    $log.debug({message: 'Save project', project});
     await model.updateOne(project, {upsert: true});
 
-    $log.debug({message: "Project saved", model});
+    $log.debug({message: 'Project saved', model});
 
     return model;
   }

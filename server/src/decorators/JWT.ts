@@ -7,16 +7,16 @@ export function JWT(): Function {
     return applyDecorators(
         UseAuth(JWTMiddleware),
         Operation({
-          "parameters": [
+          'parameters': [
             {
-              "in": "header",
-              "name": "Authorization",
-              "type": "string",
-              "required": true
+              'in': 'header',
+              'name': 'Authorization',
+              'type': 'string',
+              'required': true
             }
           ]
         }),
-        Responses(401, {description: "Unauthorized"}),
-        Responses(403, {description: "Forbidden"})
+        Responses(401, {description: 'Unauthorized'}),
+        Responses(403, {description: 'Forbidden'})
     );
 }

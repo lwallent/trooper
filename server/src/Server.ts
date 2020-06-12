@@ -1,31 +1,31 @@
 import * as env from 'dotenv';
 env.config();
-import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from "@tsed/common";
-import "@tsed/swagger";
-import "@tsed/platform-express";
-import * as bodyParser from "body-parser";
-import * as compress from "compression";
-import * as cookieParser from "cookie-parser";
-import * as cors from "cors";
-import * as methodOverride from "method-override";
-import {join} from "path";
+import {Configuration, GlobalAcceptMimesMiddleware, Inject, PlatformApplication} from '@tsed/common';
+import '@tsed/swagger';
+import '@tsed/platform-express';
+import * as bodyParser from 'body-parser';
+import * as compress from 'compression';
+import * as cookieParser from 'cookie-parser';
+import * as cors from 'cors';
+import * as methodOverride from 'method-override';
+import {join} from 'path';
 
 const rootDir = __dirname;
 
 @Configuration({
   rootDir,
-  acceptMimes: ["application/json"],
+  acceptMimes: ['application/json'],
   httpPort: process.env.PORT || 8083,
   httpsPort: false, // CHANGE
   logger: {
     debug: true,
     logRequest: true,
-    requestFields: ["reqId", "method", "url", "headers", "query", "params", "duration"]
+    requestFields: ['reqId', 'method', 'url', 'headers', 'query', 'params', 'duration']
   },
   mongoose: [
     {
-      id: "default", 
-      url: process.env.mongoose_url || "mongodb://127.0.0.1:27017/default",
+      id: 'default',
+      url: process.env.mongoose_url || 'mongodb://127.0.0.1:27017/default',
       connectionOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -33,19 +33,19 @@ const rootDir = __dirname;
     }
   ],
   mount: {
-    "/rest": [
-      `${rootDir}/controllers/**/*.ts` 
+    '/rest': [
+      `${rootDir}/controllers/**/*.ts`
     ]
   },
   componentsScan: [
-    "${rootDir}/mvc/**/*.ts",
-    "${rootDir}/services/**/*.ts",
-    "${rootDir}/middlewares/**/*.ts",
-    "${rootDir}/converters/**/*.ts"
+    '${rootDir}/mvc/**/*.ts',
+    '${rootDir}/services/**/*.ts',
+    '${rootDir}/middlewares/**/*.ts',
+    '${rootDir}/converters/**/*.ts'
   ],
   swagger: [
     {
-      path: "/api-docs",
+      path: '/api-docs',
       spec: {
         securityDefinitions: {
           Token: {
@@ -61,7 +61,7 @@ const rootDir = __dirname;
     token: true
   },
   statics: {
-    "/statics": join(__dirname, "..", "statics")
+    '/statics': join(__dirname, '..', 'statics')
   }
 })
 export class Server {

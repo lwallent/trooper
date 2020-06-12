@@ -52,7 +52,7 @@ export class JWTMiddleware implements IMiddleware {
             // and add it to locals for easy access further
             // downstream
             response.locals[LOCALS_JWT] = this.extractJWT(request);
-            
+
             // express jwt adds a user to the request
             const token = request['user'];
 
