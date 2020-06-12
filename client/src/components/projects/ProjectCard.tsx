@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     height: 100
   },
   avatar: {
-    backgroundColor: indigo[600]
+    backgroundColor: theme.palette.primary.main
   },
 }));
 
