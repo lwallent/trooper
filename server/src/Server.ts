@@ -22,9 +22,19 @@ const rootDir = __dirname;
     logRequest: true,
     requestFields: ["reqId", "method", "url", "headers", "query", "params", "duration"]
   },
+  mongoose: [
+    {
+      id: "default", 
+      url: process.env.mongoose_url || "mongodb://127.0.0.1:27017/default",
+      connectionOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+      }
+    }
+  ],
   mount: {
     "/rest": [
-      `${rootDir}/controllers/**/*.ts` // Automatic Import, /!\ doesn't works with webpack/jest, use  require.context() or manual import instead
+      `${rootDir}/controllers/**/*.ts` 
     ]
   },
   componentsScan: [
