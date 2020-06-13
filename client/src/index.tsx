@@ -9,15 +9,10 @@ import config from "./auth_config.json";
 import history from "./lib/history";
 import { RedirectLoginResult } from '@auth0/auth0-spa-js';
 
-// A function that routes the user to the right place
-// after login
+// Route the user to the right place after login
 const onRedirectCallback = (loginResult: RedirectLoginResult) => {
   const appState = loginResult.appState;
-  history.push(
-    appState && appState.targetUrl
-      ? appState.targetUrl
-      : window.location.pathname
-  );
+  history.push(appState && appState.targetUrl ? appState.targetUrl : window.location.pathname);
 };
 
 ReactDOM.render(
@@ -25,6 +20,7 @@ ReactDOM.render(
     domain={config.domain}
     client_id={config.clientId}
     redirect_uri={window.location.origin}
+    audience={config.audience}
     onRedirectCallback={onRedirectCallback}
   >
     <App />

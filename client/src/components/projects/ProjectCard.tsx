@@ -1,16 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import AccountTree from '@material-ui/icons/AccountTree';
-import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import { indigo } from '@material-ui/core/colors';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ProjectModel } from '../../models/ProjectModel';
@@ -51,17 +48,13 @@ export const ProjectCard = (props: ProjectCardProps) =>  {
             <MoreVertIcon />
           </IconButton>
         }
-        title={props.project.title}
-        subheader={new Intl.DateTimeFormat("en-GB", {
-            year: "numeric",
-            month: "long",
-            day: "2-digit"
-          }).format(props.project.modified)}
-      />
-      <CardMedia
-        className={classes.media}
-        image="/static/images/cards/paella.jpg"
-        title="Paella dish"
+        title={props.project.name}
+        subheader="TEMP"
+        // {new Intl.DateTimeFormat("en-GB", {
+        //     year: "numeric",
+        //     month: "long",
+        //     day: "2-digit"
+        //   }).format(props.project.modified)}
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">

@@ -46,7 +46,7 @@ export const Auth0Provider = ({
           if (window.location.search.includes('code=') && window.location.search.includes("state=")) {
             let loginResult: RedirectLoginResult = {}
             try {
-              const loginResult = await auth0FromHook.handleRedirectCallback();
+              loginResult = await auth0FromHook.handleRedirectCallback();
             }
             finally {
               onRedirectCallback(loginResult);

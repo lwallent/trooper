@@ -1,43 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import { ProjectCard } from './ProjectCard';
-
-/**
- * Temp Project Dummies - removed shortly
- */
-const projects = [
-    {
-        title: 'Amazing Stories',
-        description: 'Phasellus a turpis tincidunt libero efficitur efficitur non cursus tortor. Pellentesque at erat tempor, dapibus tellus vitae, hendrerit elit. Donec ut quam mauris. Praesent ultricies augue ut turpis tincidunt bibendum. Phasellus ultrices lacinia purus egestas auctor. In lacus lectus, dignissim at bibendum',
-        created: Date.now(),
-        modified: Date.now()
-    },
-    {
-        title: 'Rick & Morthy',
-        description: '',
-        created: Date.now(),
-        modified: Date.now()
-    },
-    {
-        title: 'Trooper Goal',
-        description: '',
-        created: Date.now(),
-        modified: Date.now()
-    },
-    {
-        title: 'House Rebuild',
-        description: '',
-        created: Date.now(),
-        modified: Date.now()
-    }
-];
-
+import { useAuth0 } from '../../react-auth0-spa';
+import { restGet, restCreate } from '../../api/rest-api';
+import { Button } from '@material-ui/core';
+import { NewProjectDialog } from './NewProjectDialog';
+import { ProjectModel } from '../../models/ProjectModel';
 
 const useStyles = makeStyles((theme) => ({
     root: {
       flexGrow: 1,
+    },
+    buttonNew: {
+      margin: theme.spacing(2),
     },
     paper: {
       padding: theme.spacing(2),
@@ -47,18 +23,56 @@ const useStyles = makeStyles((theme) => ({
   }));
   
 export const ProjectsPage = () => {
-
+    const [newProjectOpen, setOpenNewProject] = React.useState(false);
+    const [loadTrigger, setLoadTrigger] = React.useState(false);
+    const [projects, setProjects] = React.useState<ProjectModel[]>([]);
     const classes = useStyles();
+    const { getTokenSilently } = useAuth0();
+
+    useEffect(()=> {
+      const loadProjects = async () => {
+        const token = await getTokenSilently();
+
+        if (token) {
+          const projects = await restGet(token, 'http://0.0.0.0:8083/rest/projects');
+          setProjects(projects);
+        }
+      }
+      
+      loadProjects();
+      
+    }, [loadTrigger, getTokenSilently]);
+   
+    const createProject = async () => {
+      setOpenNewProject(true);
+    }
+
+    const handleNewProject = async (project: ProjectModel | undefined) => {
+
+      if (project) {
+        const token = await getTokenSilently();
+  
+        if (token) {
+          const returned = await restCreate<ProjectModel>(token, 'http://0.0.0.0:8083/rest/projects', project);
+          setLoadTrigger(!loadTrigger);
+        }
+      }
+
+      setOpenNewProject(false);
+    }
 
   return (
     <div className={classes.root}>
+      <Button variant="contained" color="primary" onClick={createProject} className={classes.buttonNew}>
+          New
+      </Button>
+      <NewProjectDialog open={newProjectOpen} onClose={handleNewProject}></NewProjectDialog>
       <Grid container spacing={3}>        
         {projects.map(project => (
-          <Grid item xs={12} sm={4}>
+          <Grid item xs={12} sm={4} key={project.id}>
             <ProjectCard project={project}></ProjectCard>
           </Grid>
         ))}
-
       </Grid>
     </div>
   );
