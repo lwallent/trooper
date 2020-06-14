@@ -60,6 +60,10 @@ export const Auth0Provider = ({
     
             setIsAuthenticated(true)
             setUser(userProfile)
+
+             // If login was successful, set the token in local storage
+            const token = await auth0FromHook.getTokenSilently({});
+            localStorage.setItem('id_token', token)
           }
     
           setIsInitializing(false)
@@ -104,8 +108,10 @@ export const Auth0Provider = ({
       const getTokenSilently = (options?: GetTokenSilentlyOptions) =>
         auth0Client!.getTokenSilently(options)
     
-      const logout = (options?: LogoutOptions) =>
-        auth0Client!.logout(options)
+      const logout = (options?: LogoutOptions) => {
+        auth0Client!.logout(options);
+        localStorage.removeItem('id_token');
+      }
     
       const getIdTokenClaims = (options?: getIdTokenClaimsOptions) =>
         auth0Client!.getIdTokenClaims(options)

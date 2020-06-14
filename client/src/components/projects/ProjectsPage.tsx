@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Dispatch } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { ProjectCard } from './ProjectCard';
@@ -7,6 +7,9 @@ import { restGet, restCreate } from '../../api/rest-api';
 import { Button } from '@material-ui/core';
 import { NewProjectDialog } from './NewProjectDialog';
 import { ProjectModel } from '../../models/ProjectModel';
+import { connect, ConnectedProps } from 'react-redux';
+import { RootState } from '../../redux/reducers';
+import { createProject, deleteProject, fetchProjects, ProjectActionTypes } from '../../redux/actions/projectActions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,26 +25,13 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
   
-export const ProjectsPage = () => {
+const ProjectsPage = (props: Props) => {
     const [newProjectOpen, setOpenNewProject] = React.useState(false);
-    const [loadTrigger, setLoadTrigger] = React.useState(false);
-    const [projects, setProjects] = React.useState<ProjectModel[]>([]);
     const classes = useStyles();
-    const { getTokenSilently } = useAuth0();
 
     useEffect(()=> {
-      const loadProjects = async () => {
-        const token = await getTokenSilently();
-
-        if (token) {
-          const projects = await restGet(token, 'http://0.0.0.0:8083/rest/projects');
-          setProjects(projects);
-        }
-      }
-      
-      loadProjects();
-      
-    }, [loadTrigger, getTokenSilently]);
+      props.fetchProjects();
+    }, []);
    
     const createProject = async () => {
       setOpenNewProject(true);
@@ -50,12 +40,14 @@ export const ProjectsPage = () => {
     const handleNewProject = async (project: ProjectModel | undefined) => {
 
       if (project) {
-        const token = await getTokenSilently();
+        props.createProject(project);
+        //props.dispatch();
+
+        // const token = await getTokenSilently();
   
-        if (token) {
-          const returned = await restCreate<ProjectModel>(token, 'http://0.0.0.0:8083/rest/projects', project);
-          setLoadTrigger(!loadTrigger);
-        }
+        // if (token) {
+        //   const returned = await restCreate<ProjectModel>(token, 'http://0.0.0.0:8083/rest/projects', project);
+        // }
       }
 
       setOpenNewProject(false);
@@ -68,7 +60,7 @@ export const ProjectsPage = () => {
       </Button>
       <NewProjectDialog open={newProjectOpen} onClose={handleNewProject}></NewProjectDialog>
       <Grid container spacing={3}>        
-        {projects.map(project => (
+        {props.projects.map(project => (
           <Grid item xs={12} sm={4} key={project.id}>
             <ProjectCard project={project}></ProjectCard>
           </Grid>
@@ -77,3 +69,22 @@ export const ProjectsPage = () => {
     </div>
   );
 }
+
+const mapState = ({projectsState}: RootState) => {
+  return {
+    projects: projectsState.projects
+  }
+}
+
+const mapDispatch = {
+  createProject,
+  deleteProject,
+  fetchProjects
+}
+
+const connector = connect(mapState, mapDispatch)
+type PropsFromRedux = ConnectedProps<typeof connector>
+
+type Props = PropsFromRedux; // Can add Own Props
+
+export default connector(ProjectsPage);

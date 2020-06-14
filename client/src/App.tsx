@@ -8,7 +8,7 @@ import history from "./lib/history";
 import { CssBaseline } from '@material-ui/core';
 import { TrooperHeader } from './components/basic-ui/TrooperHeader';
 import { TrooperMenu, MENU_WIDTH } from './components/basic-ui/TrooperMenu';
-import { ProjectsPage } from './components/projects/ProjectsPage';
+import ProjectsPage from './components/projects/ProjectsPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
