@@ -1,15 +1,13 @@
-import React, { useEffect, Dispatch } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import { ProjectCard } from './ProjectCard';
-import { useAuth0 } from '../../react-auth0-spa';
-import { restGet, restCreate } from '../../api/rest-api';
 import { Button } from '@material-ui/core';
 import { NewProjectDialog } from './NewProjectDialog';
 import { ProjectModel } from '../../models/ProjectModel';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux/reducers';
-import { createProject, deleteProject, fetchProjects, ProjectActionTypes } from '../../redux/actions/projectActions';
+import { createProject, deleteProject, fetchProjects } from '../../redux/actions/projectActions';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -41,13 +39,6 @@ const ProjectsPage = (props: Props) => {
 
       if (project) {
         props.createProject(project);
-        //props.dispatch();
-
-        // const token = await getTokenSilently();
-  
-        // if (token) {
-        //   const returned = await restCreate<ProjectModel>(token, 'http://0.0.0.0:8083/rest/projects', project);
-        // }
       }
 
       setOpenNewProject(false);

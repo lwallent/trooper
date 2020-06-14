@@ -1,5 +1,5 @@
 import { ProjectModel } from '../../models/ProjectModel';
-import { ProjectActionTypes, CREATE_PROJECT, DELETE_PROJECT, LOAD_PROJECTS_SUCCESS } from '../actions/projectActions';
+import { ProjectActionTypes, DELETE_PROJECT, LOAD_PROJECTS_SUCCESS, CREATE_PROJECT_SUCCESS } from '../actions/projectActions';
 
 export interface ProjectState {
     projects: ProjectModel[];
@@ -14,9 +14,9 @@ export const projectReducer = (
     action: ProjectActionTypes
   ): ProjectState => {
     switch (action.type) {
-      case CREATE_PROJECT:
+      case CREATE_PROJECT_SUCCESS:
         return {
-          projects: [...state.projects, action.payload]
+          projects: [...state.projects, action.response]
         }
       case DELETE_PROJECT:
         return {

@@ -1,17 +1,19 @@
 import { Action, Dispatch, MiddlewareAPI } from 'redux'
 
-const BASE_URL = 'http://0.0.0.0:8083/rest/'
+const BASE_URL = 'http://0.0.0.0:8083/rest/';
 
-const callServer = async (endpoint: string) => {
+export const API_ACTION = 'API_ACTION';
+
+const callServer = async (endpoint: string, options: RequestInit | undefined) => {
 
     let token = localStorage.getItem('id_token') || null
-    let config = {}
+    let config = Object.assign({}, options);
 
     // If we have a token - inject it in the header
     if (token) {
-        config = {
-            headers: { 'Authorization': `Bearer ${token}` }
-        }
+        config.headers = Object.assign({}, config.headers, {
+             'Authorization': `Bearer ${token}` 
+        });
     }
 
     try {
@@ -22,36 +24,56 @@ const callServer = async (endpoint: string) => {
     }
 }
 
-export const CALL_API = Symbol('Call API');
-
-interface CallDetails {
+interface ApiCallDetails {
     endpoint: string;
     types: string[];
+    options?: RequestInit;
 }
 
-export interface ApiGetAction extends Action {
-    [CALL_API]: CallDetails;
+export interface ApiAction extends Action {
+    payload: ApiCallDetails;
 }
 
-type ApiAction = ApiGetAction
+export const createApiGetAction = (endpoint: string, types: string[]): () => ApiAction  => {
+    return () => ({
+        type: API_ACTION,
+        payload: { endpoint, types}
+    });
+}
+
+export const createApiCreateAction = <T> (endpoint: string, types: string[]): (data:T) => ApiAction  => {
+        return (data: T) => ({
+            type: API_ACTION,
+            payload: { 
+                endpoint, 
+                types,
+                options: {
+                    body: JSON.stringify(data),
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                } 
+            }
+        });
+}
+
 
 export const apiMiddleware = (api: MiddlewareAPI<any>) => (next: Dispatch<Action>) => async (action: ApiAction) => {
 
-    const callAPI = action[CALL_API]
-
     // So the middleware doesn't get applied to every single action
-    if (typeof callAPI === 'undefined') {
+    if (action.type !== API_ACTION) {
         return next(action)
     }
 
-    const { endpoint, types } = callAPI;
+    const { endpoint, types, options } = action.payload;
     const [requestType, successType, errorType] = types;
     
     try {
         // Mark start of action 
         next({type: requestType});
 
-        const response = await callServer(endpoint);
+        const response = await callServer(endpoint, options);
 
         // Dispatch Success
         next({ response, type: successType });
