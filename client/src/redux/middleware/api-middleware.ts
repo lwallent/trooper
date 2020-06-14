@@ -18,7 +18,11 @@ const callServer = async (endpoint: string, options: RequestInit | undefined) =>
 
     try {
         const response = await fetch(BASE_URL + endpoint, config);
-        return response.json();
+        if (response.status === 204) {
+            return;
+        } else {
+            return response.json();
+        }
     } catch (err) {
         console.error(err);
     }
@@ -56,6 +60,22 @@ export const createApiCreateAction = <T> (endpoint: string, types: string[]): (d
                 } 
             }
         });
+}
+
+export const createApiDeleteAction = (endpoint: string, types: string[]): (id: string) => ApiAction  => {
+    return (id: string) => ({
+        type: API_ACTION,
+        payload: { 
+            endpoint: `${endpoint}/${id}`, 
+            types,
+            options: {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            } 
+        }
+    });
 }
 
 

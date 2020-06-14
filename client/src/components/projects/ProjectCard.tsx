@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -11,6 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { ProjectModel } from '../../models/ProjectModel';
+import { Menu, MenuItem } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,10 +31,27 @@ const useStyles = makeStyles((theme) => ({
 
 export interface ProjectCardProps {
     project: ProjectModel;
+    onDeleteProject: (id: string) => void;
 }
 
 export const ProjectCard = (props: ProjectCardProps) =>  {
   const classes = useStyles();
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  }
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  }
+
+  const handleProjectDelete = (id?: string) => {
+    if (id) {
+      props.onDeleteProject(id);
+    }
+    handleMenuClose();
+  }
 
   return (
     <Card className={classes.root}>
@@ -44,7 +62,7 @@ export const ProjectCard = (props: ProjectCardProps) =>  {
           </Avatar>
         }
         action={
-          <IconButton aria-label="settings">
+          <IconButton aria-label="settings" onClick={handleMenuOpen}>
             <MoreVertIcon />
           </IconButton>
         }
@@ -56,6 +74,15 @@ export const ProjectCard = (props: ProjectCardProps) =>  {
         //     day: "2-digit"
         //   }).format(props.project.modified)}
       />
+      <Menu
+        id="simple-menu"
+        anchorEl={anchorEl}
+        keepMounted
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={()=>handleProjectDelete(props.project.id)}>Delete</MenuItem>
+      </Menu>
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
         {props.project.description}

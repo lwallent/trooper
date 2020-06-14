@@ -1,11 +1,13 @@
 import { ProjectModel } from '../../models/ProjectModel';
-import { ProjectActionTypes, DELETE_PROJECT, LOAD_PROJECTS_SUCCESS, CREATE_PROJECT_SUCCESS } from '../actions/projectActions';
+import { ProjectActionTypes, LOAD_PROJECTS_SUCCESS, CREATE_PROJECT_SUCCESS, DELETE_PROJECT_SUCCESS } from '../actions/projectActions';
 
 export interface ProjectState {
+    dirty: boolean;
     projects: ProjectModel[];
 }
 
 const initialState: ProjectState = {
+    dirty: true,
     projects: []
 }
 
@@ -15,17 +17,14 @@ export const projectReducer = (
   ): ProjectState => {
     switch (action.type) {
       case CREATE_PROJECT_SUCCESS:
+      case DELETE_PROJECT_SUCCESS:
         return {
-          projects: [...state.projects, action.response]
-        }
-      case DELETE_PROJECT:
-        return {
-          projects: state.projects.filter(
-            project => project.id !== action.meta.id
-          )
+          ...state,
+          dirty: true,
         }
       case LOAD_PROJECTS_SUCCESS:
         return {
+          dirty: false,
           projects: [...action.response]
         }
       default:

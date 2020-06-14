@@ -28,8 +28,10 @@ const ProjectsPage = (props: Props) => {
     const classes = useStyles();
 
     useEffect(()=> {
-      props.fetchProjects();
-    }, []);
+      if (props.dirty) {
+        props.fetchProjects();
+      }
+    }, [props.dirty]);
    
     const createProject = async () => {
       setOpenNewProject(true);
@@ -53,7 +55,7 @@ const ProjectsPage = (props: Props) => {
       <Grid container spacing={3}>        
         {props.projects.map(project => (
           <Grid item xs={12} sm={4} key={project.id}>
-            <ProjectCard project={project}></ProjectCard>
+            <ProjectCard project={project} onDeleteProject={(id) => props.deleteProject(id)}></ProjectCard>
           </Grid>
         ))}
       </Grid>
@@ -63,7 +65,7 @@ const ProjectsPage = (props: Props) => {
 
 const mapState = ({projectsState}: RootState) => {
   return {
-    projects: projectsState.projects
+    ...projectsState
   }
 }
 
