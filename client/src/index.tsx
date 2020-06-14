@@ -8,6 +8,10 @@ import { Auth0Provider } from "./react-auth0-spa";
 import config from "./auth_config.json";
 import history from "./lib/history";
 import { RedirectLoginResult } from '@auth0/auth0-spa-js';
+import { configureStore } from './redux/configureStore';
+import { Provider as ReduxProvider } from 'react-redux';
+
+const store = configureStore();
 
 // Route the user to the right place after login
 const onRedirectCallback = (loginResult: RedirectLoginResult) => {
@@ -16,6 +20,7 @@ const onRedirectCallback = (loginResult: RedirectLoginResult) => {
 };
 
 ReactDOM.render(
+  <ReduxProvider store={store}>
   <Auth0Provider
     domain={config.domain}
     client_id={config.clientId}
@@ -24,7 +29,8 @@ ReactDOM.render(
     onRedirectCallback={onRedirectCallback}
   >
     <App />
-  </Auth0Provider>,
+  </Auth0Provider>
+  </ReduxProvider>,
   document.getElementById("root")
 );
 
