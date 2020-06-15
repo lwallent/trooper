@@ -1,12 +1,11 @@
 import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button } from '@material-ui/core';import React, { useState } from 'react';
-import { ProjectModel } from '../../models/ProjectModel';
+import { CreationProjectModel } from '../../models/ProjectModel';
 
 export interface NewProjectDialogProps {
     open: boolean;
 
-    onClose: (output: ProjectModel | undefined) => void;
+    onClose: (output: CreationProjectModel | undefined) => void;
 }
-
 
 export const NewProjectDialog = (props: NewProjectDialogProps) => {
     const [projectName, setProjectName ] = useState('New Project');

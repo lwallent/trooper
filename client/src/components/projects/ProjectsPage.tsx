@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { ProjectCard } from './ProjectCard';
 import { Button } from '@material-ui/core';
 import { NewProjectDialog } from './NewProjectDialog';
-import { ProjectModel } from '../../models/ProjectModel';
+import { ProjectModel, CreationProjectModel } from '../../models/ProjectModel';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { createProject, deleteProject, fetchProjects } from '../../redux/actions/projectActions';
@@ -54,7 +54,7 @@ const ProjectsPage = (props: Props) => {
     setOpenNewProject(true);
   }
 
-  const handleNewProject = async (project: ProjectModel | undefined) => {
+  const handleNewProject = async (project: CreationProjectModel | undefined) => {
 
     if (project) {
       props.createProject(project);
@@ -72,7 +72,7 @@ const ProjectsPage = (props: Props) => {
       <Grid container spacing={3}>
         {props.projects.map(project => (
           <Grid item xs={12} sm={4} key={project.id}>
-            <ProjectCard project={project} onDeleteProject={(id) => props.deleteProject(id)}></ProjectCard>
+            <ProjectCard project={project} onDeleteProject={(id) => props.deleteProject(id)} onOpenProject={(id) => console.log('OPEN: ' + id) }></ProjectCard>
           </Grid>
         ))}
       </Grid>

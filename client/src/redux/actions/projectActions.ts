@@ -1,5 +1,5 @@
-import { ProjectModel } from '../../models/ProjectModel'
-import {  createApiGetAction, createApiCreateAction, createApiDeleteAction } from '../middleware/api-middleware';
+import { ProjectModel, CreationProjectModel } from '../../models/ProjectModel'
+import { createApiGetAction, createApiCreateAction, createApiDeleteAction } from '../middleware/api-middleware';
 
 export const LOAD_PROJECTS_REQUEST = 'LOAD_PROJECTS_REQUEST';
 export const LOAD_PROJECTS_SUCCESS = 'LOAD_PROJECTS_SUCCESS';
@@ -29,5 +29,5 @@ export type ProjectActionTypes = CreateProjectSuccessAction | DeleteProjectSucce
   
 
 export const fetchProjects = createApiGetAction('projects', [LOAD_PROJECTS_REQUEST, LOAD_PROJECTS_SUCCESS, LOAD_PROJECTS_FAILURE]);
-export const createProject = createApiCreateAction<ProjectModel>('projects', [CREATE_PROJECT_REQUEST, CREATE_PROJECT_SUCCESS, CREATE_PROJECT_FAILURE]);
+export const createProject = createApiCreateAction<CreationProjectModel>('projects', [CREATE_PROJECT_REQUEST, CREATE_PROJECT_SUCCESS, CREATE_PROJECT_FAILURE]);
 export const deleteProject = createApiDeleteAction('projects', [DELETE_PROJECT_REQUEST, DELETE_PROJECT_SUCCESS, DELETE_PROJECT_FAILURE]);
