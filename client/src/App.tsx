@@ -9,6 +9,7 @@ import { CssBaseline } from '@material-ui/core';
 import { TrooperHeader } from './components/basic-ui/TrooperHeader';
 import { TrooperMenu, MENU_WIDTH } from './components/basic-ui/TrooperMenu';
 import ProjectsPage from './components/projects/ProjectsPage';
+import ProjectWorkbenchPage  from './components/projects/ProjectWorkbenchPage';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,8 +64,9 @@ export const App = () => {
           
           <Switch>
             <Route path="/" exact />
-            <PrivateRoute path="/profile" component={Profile} />
-            <PrivateRoute path="/projects" component={ProjectsPage} />
+            <PrivateRoute path="/profile"  component={Profile} />
+            <PrivateRoute path="/projects/:id" component={ProjectWorkbenchPage} />
+            <PrivateRoute path="/projects" component={ProjectsPage} />          
           </Switch>
         </main>
       </Router>
