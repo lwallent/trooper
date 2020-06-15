@@ -1,6 +1,6 @@
 import React from "react";
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Router, Route, Switch } from "react-router-dom";
 import { Profile } from "./components/user/Profile";
 import { PrivateRoute } from './components/security/PrivateRoute';
@@ -38,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
 
 export const App = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {

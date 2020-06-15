@@ -29,7 +29,7 @@ const ProjectWorkbenchPage = (props: Props) => {
             props.fetchProjects(); // Just load single...
         }
         setProject(props.projects.find(p => p.id === id));
-    },[id, props.dirty]);
+    }, [id, props]);
 
     return (
         <div>HELLO PROJECT: {project?.name}</div>

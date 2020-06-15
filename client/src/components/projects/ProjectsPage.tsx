@@ -4,7 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import { ProjectCard } from './ProjectCard';
 import { Button } from '@material-ui/core';
 import { NewProjectDialog } from './NewProjectDialog';
-import { ProjectModel, CreationProjectModel } from '../../models/ProjectModel';
+import { CreationProjectModel } from '../../models/ProjectModel';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { createProject, deleteProject, fetchProjects } from '../../redux/actions/projectActions';
@@ -48,7 +48,7 @@ const ProjectsPage = (props: Props) => {
     if (props.dirty) {
       props.fetchProjects();
     }
-  }, [props.dirty]);
+  }, [props]);
 
   const createProject = async () => {
     setOpenNewProject(true);
