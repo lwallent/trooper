@@ -9,6 +9,7 @@ import ExitToApp from '@material-ui/icons/ExitToApp';
 import {History } from 'history'
 
 import { useAuth0 } from '../../react-auth0-spa';
+import { useHistory } from 'react-router-dom';
 
 export const MENU_WIDTH = 240;
 
@@ -33,13 +34,12 @@ const useStyles = makeStyles((theme) => ({
   export interface TrooperMenuProps {
     onMenuCollapseClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     isMenuOpen: boolean;
-
-    history: History;
 }
 
 export const TrooperMenu = (props: TrooperMenuProps) => {
     const classes = useStyles();
     const theme = useTheme();
+    const history = useHistory();
     const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
     return (
@@ -60,12 +60,12 @@ export const TrooperMenu = (props: TrooperMenuProps) => {
         <Divider />
 
         <List>
-            <ListItem button onClick={() => props.history.push('/projects') }>
+            <ListItem button onClick={() => history.push('/projects') }>
               <ListItemIcon><AccountTree/></ListItemIcon>
               <ListItemText primary="Projects" />
             </ListItem>
 
-            <ListItem button onClick={() => props.history.push('/profile') }>
+            <ListItem button onClick={() => history.push('/profile') }>
               <ListItemIcon><Person/></ListItemIcon>
               <ListItemText primary="Profile" />
             </ListItem>

@@ -53,7 +53,7 @@ export const App = () => {
       <Router history={history}>
         <CssBaseline />
         <TrooperHeader onBurgerClick={handleDrawerOpen} isMenuOpen={open}></TrooperHeader>
-        <TrooperMenu onMenuCollapseClick={handleDrawerClose} isMenuOpen={open} history={history}></TrooperMenu>
+        <TrooperMenu onMenuCollapseClick={handleDrawerClose} isMenuOpen={open} ></TrooperMenu>
         <main
           className={clsx(classes.content, {
             [classes.contentShift]: open,
