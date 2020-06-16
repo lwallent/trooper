@@ -8,6 +8,7 @@ import { CreationProjectModel } from '../../models/ProjectModel';
 import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { createProject, deleteProject, fetchProjects } from '../../redux/actions/projectActions';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,6 +44,7 @@ type Props = PropsFromRedux; // Can add Own Props
 const ProjectsPage = (props: Props) => {
   const [newProjectOpen, setOpenNewProject] = React.useState(false);
   const classes = useStyles();
+  const history = useHistory();
 
   useEffect(() => {
     if (props.dirty) {
@@ -72,7 +74,7 @@ const ProjectsPage = (props: Props) => {
       <Grid container spacing={3}>
         {props.projects.map(project => (
           <Grid item xs={12} sm={4} key={project.id}>
-            <ProjectCard project={project} onDeleteProject={(id) => props.deleteProject(id)} onOpenProject={(id) => console.log('OPEN: ' + id) }></ProjectCard>
+            <ProjectCard project={project} onDeleteProject={(id) => props.deleteProject(id)} onOpenProject={(id) => history.push(`projects/${id}`) }></ProjectCard>
           </Grid>
         ))}
       </Grid>

@@ -39,7 +39,7 @@ export const ProjectCard = (props: ProjectCardProps) =>  {
 
   return (
     <Card className={classes.root}>
-      <CardActionArea href={`projects/${props.project.id}`} >
+      <CardActionArea onClick={() => props.onOpenProject(props.project.id)} >
       <CardHeader
         avatar={
           <Avatar className={classes.avatar}>
