@@ -4,6 +4,7 @@ import { RootState } from '../../redux/reducers';
 import { connect, ConnectedProps } from 'react-redux';
 import { ProjectModel } from '../../models/ProjectModel';
 import { fetchProjects } from '../../redux/actions/projectActions';
+import { PageLayout } from '../basic-ui/PageLayout';
 
 const mapState = ({ projectsState }: RootState) => {
     return {
@@ -32,7 +33,9 @@ const ProjectWorkbenchPage = (props: Props) => {
     }, [id, props]);
 
     return (
+      <PageLayout views={['Tree', 'Swimlane', 'Playground']} title={project?.name}>
         <div>HELLO PROJECT: {project?.name}</div>
+      </PageLayout>
     );
 }
 

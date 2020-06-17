@@ -4,7 +4,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography, Tabs, Tab } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { MENU_WIDTH } from './TrooperMenu';
-import { yellow } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -41,11 +40,22 @@ const useStyles = makeStyles((theme) => ({
 export interface TrooperHeaderProps {
     onBurgerClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
     isMenuOpen: boolean;
+    views?: string[];
+    title?: string;
 }
 
 export const TrooperHeader = (props: TrooperHeaderProps) => {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+
+   const viewTabs = props.views ?  (
+    <Tabs value={value}  classes={{ indicator: classes.tabIndicator  }}>
+      {props.views.map(view => <Tab label={view}  />)}
+    </Tabs>) : undefined;
+
+    const pageTitle = props.title ? ( <Typography variant="subtitle2" noWrap>
+    &nbsp;: {props.title}
+  </Typography>) : undefined
 
     return (
         <AppBar
@@ -68,12 +78,9 @@ export const TrooperHeader = (props: TrooperHeaderProps) => {
           <Typography variant="h6" noWrap>
             Trooper Goal
           </Typography>
+          {pageTitle}
           <span className={classes.grow}></span>
-          <Tabs value={value}  classes={{ indicator: classes.tabIndicator  }}>
-            <Tab label="Tree"  />
-            <Tab label="Swim lane"  />
-            <Tab label="Playground" />
-          </Tabs>
+          {viewTabs}
         </Toolbar>
        
       </AppBar>

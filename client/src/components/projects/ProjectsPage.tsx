@@ -9,6 +9,7 @@ import { connect, ConnectedProps } from 'react-redux';
 import { RootState } from '../../redux/reducers';
 import { createProject, deleteProject, fetchProjects } from '../../redux/actions/projectActions';
 import { useHistory } from 'react-router-dom';
+import { PageLayout } from '../basic-ui/PageLayout';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,19 +67,21 @@ const ProjectsPage = (props: Props) => {
   }
 
   return (
-    <div className={classes.root}>
-      <Button variant="contained" color="primary" onClick={createProject} className={classes.buttonNew}>
-        New
-      </Button>
-      <NewProjectDialog open={newProjectOpen} onClose={handleNewProject}></NewProjectDialog>
-      <Grid container spacing={3}>
-        {props.projects.map(project => (
-          <Grid item xs={12} sm={4} key={project.id}>
-            <ProjectCard project={project} onDeleteProject={(id) => props.deleteProject(id)} onOpenProject={(id) => history.push(`projects/${id}`) }></ProjectCard>
-          </Grid>
-        ))}
-      </Grid>
-    </div>
+    <PageLayout>
+      <div className={classes.root}>
+        <Button variant="contained" color="primary" onClick={createProject} className={classes.buttonNew}>
+          New
+        </Button>
+        <NewProjectDialog open={newProjectOpen} onClose={handleNewProject}></NewProjectDialog>
+        <Grid container spacing={3}>
+          {props.projects.map(project => (
+            <Grid item xs={12} sm={4} key={project.id}>
+              <ProjectCard project={project} onDeleteProject={(id) => props.deleteProject(id)} onOpenProject={(id) => history.push(`projects/${id}`) }></ProjectCard>
+            </Grid>
+          ))}
+        </Grid>
+      </div>
+    </PageLayout>
   );
 }
 
