@@ -1,9 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Typography, Tabs, Tab } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { MENU_WIDTH } from './TrooperMenu';
+import { yellow } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
     appBar: {
@@ -26,6 +27,15 @@ const useStyles = makeStyles((theme) => ({
     hide: {
       display: 'none',
     },
+    tabIndicator: {
+      backgroundColor: 'white'
+    },
+    toolbar: {
+      display: 'flex'
+    },
+    grow: {
+      flexGrow: 1
+    }
 }));
 
 export interface TrooperHeaderProps {
@@ -35,6 +45,7 @@ export interface TrooperHeaderProps {
 
 export const TrooperHeader = (props: TrooperHeaderProps) => {
     const classes = useStyles();
+    const [value, setValue] = React.useState(0);
 
     return (
         <AppBar
@@ -43,7 +54,7 @@ export const TrooperHeader = (props: TrooperHeaderProps) => {
           [classes.appBarShift]: props.isMenuOpen,
         })}
       >
-        <Toolbar>
+        <Toolbar className={classes.toolbar}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -53,10 +64,18 @@ export const TrooperHeader = (props: TrooperHeaderProps) => {
           >
             <MenuIcon />
           </IconButton>
+
           <Typography variant="h6" noWrap>
             Trooper Goal
           </Typography>
+          <span className={classes.grow}></span>
+          <Tabs value={value}  classes={{ indicator: classes.tabIndicator  }}>
+            <Tab label="Tree"  />
+            <Tab label="Swim lane"  />
+            <Tab label="Playground" />
+          </Tabs>
         </Toolbar>
+       
       </AppBar>
     );
 }
